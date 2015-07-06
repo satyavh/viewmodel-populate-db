@@ -1,0 +1,76 @@
+<head>
+  <title>viewmodel-populate-db</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Viewmodel populate input fields from database example</h1>
+        <p>Populates the input field with a value form the database</p>
+        <p>Uses 2-way binding to validate that input field has a value.</p>
+        <p>If has value, submit is enabled</p>
+
+
+        <hr/>
+
+        {{> fail}}
+
+        <hr/>
+
+        {{> initsOnly}}
+
+        <hr/>
+
+
+        {{> success}}
+      </div>
+    </div>
+  </div>
+</body>
+
+<template name="fail">
+  <h3>Fails</h3>
+  <p>Not setting input with db value, because viewmodel doesn't update values reactively (only functions)</p>
+
+  <form>
+
+    <div class="form-group" data-bind="class: {has-success: allValid}">
+      <label>Update value</label>
+      <input class="form-control" type="text" data-bind="value: dbValue" placeholder="database value"/>
+      <button class="btn btn-primary" type="submit" data-bind="enabled: allValid, click: submit"> Submit </button>
+
+      <div data-bind="text: result"></div> 
+    </div> 
+  </form>
+</template>
+
+<template name="initsOnly">
+  <h3>No 2-way binding</h3>
+  <p>Binds value from DB, but no 2-way binding (try change value and press submit to show result). Also note that the validation is always true, because viewmodel validates the initial static value</p>
+
+  <div class="form-group" data-bind="class: {has-success: allValid}">
+
+    <label>Update value</label>
+    <input class="form-control" type="text" data-bind="value: dbValue" placeholder="database value"/>
+    <button class="btn btn-primary" type="submit" data-bind="enabled: allValid, click: submit"> Submit </button>
+
+    <div data-bind="text: result"></div>  
+  </div>
+</template>
+
+<template name="success">
+  <h3>Success</h3>
+  <p>2-way binding, but in a very non-viewmodel way using jquery and spaghetti code.</p>
+
+  <div class="form-group" data-bind="class: {has-success: allValid}">
+    <label>Update value</label>
+    <input class="form-control" id="value" type="text" data-bind="value: dbValue, keyup: checkValue" placeholder="database value"/>
+    <button class="btn btn-primary" type="submit" data-bind="enabled: allValid, click: submit"> Submit </button>
+    
+    <div data-bind="text: result"></div>  
+  </div>
+</template>
+
+
